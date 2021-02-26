@@ -1,0 +1,103 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.example.oma"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            release_values.forEach { key, value -> buildConfigField("String", key, "\"$value\"") }
+            debuggable false
+        }
+        debug {
+            debug_values.forEach { key, value -> buildConfigField("String", key, "\"$value\"") }
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation(
+            "com.squareup.retrofit2:retrofit:$retrofit_version",
+            "com.squareup.retrofit2:converter-gson:$retrofit_version",
+            "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version",
+            "com.squareup.okhttp3:logging-interceptor:$okhttp_interceptr_version"
+    )
+    implementation(
+            "io.reactivex.rxjava2:rxandroid:$rxjava_version",
+            "io.reactivex.rxjava2:rxjava:$rxandroid_version"
+    )
+
+    implementation(
+            "androidx.appcompat:appcompat:$appcompat_version",
+            "androidx.core:core-ktx:$core_ktx_version",
+            "androidx.constraintlayout:constraintlayout:$constraint_version",
+            'androidx.browser:browser:1.0.0'
+    )
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    implementation(
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            "com.google.android.material:material:$material_version"
+    )
+
+
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation(
+            "androidx.lifecycle:lifecycle-extensions:$lifecycle_version",
+            "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+    )
+
+    testImplementation(
+            "junit:junit:$junit_version",
+            "androidx.arch.core:core-testing:$lifecycle_version"
+    )
+
+    androidTestImplementation(
+            "androidx.test:runner:$test_runner_version",
+            "androidx.test.espresso:espresso-intents:$espresso_test_version",
+            "androidx.test.espresso:espresso-contrib:$espresso_test_version",
+            "androidx.test.espresso:espresso-idling-resource:$espresso_test_version",
+            "androidx.test.espresso:espresso-core:$espresso_test_version",
+            'androidx.test:rules:1.2.0',
+            "androidx.test.ext:junit:1.1.1",
+            "androidx.test.ext:junit-ktx:1.1.1"
+    )
+
+}
